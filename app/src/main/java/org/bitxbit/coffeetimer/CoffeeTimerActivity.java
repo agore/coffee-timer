@@ -38,8 +38,8 @@ public class CoffeeTimerActivity extends ActionBarActivity {
     ImageView imgIndicator;
     @InjectView(R.id.txt_phase)
     TextView txtPhase;
-//    @InjectView(R.id.txt_timer)
-//    TextView txtTimer;
+    @InjectView(R.id.txt_timer)
+    TextView txtTimer;
 
     private int secondsElapsed;
     private boolean timerRunning;
@@ -52,7 +52,6 @@ public class CoffeeTimerActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_timer);
         ButterKnife.inject(this);
-//        txtTimer.setText("3:45");
         runnable = new TimeUpdateRunnable(this);
         tg = new ToneGenerator(AudioManager.STREAM_DTMF, 100);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -86,7 +85,7 @@ public class CoffeeTimerActivity extends ActionBarActivity {
         imgIndicator.removeCallbacks(runnable);
         imgIndicator.setImageResource(R.drawable.initial_circle);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//        txtTimer.setText("0:00");
+        txtTimer.setText("0:00");
     }
 
     private void pause() {
@@ -100,13 +99,8 @@ public class CoffeeTimerActivity extends ActionBarActivity {
     }
 
     private void updateTime() {
-        if (secondsElapsed == 225) {
-            reset();
-            return;
-        }
-
         secondsElapsed++;
-//        txtTimer.setText(format(secondsElapsed));
+        txtTimer.setText(format(secondsElapsed));
 
         if (secondsElapsed == 1) {
             imgIndicator.setImageResource(R.drawable.bloom_circle);
@@ -130,6 +124,14 @@ public class CoffeeTimerActivity extends ActionBarActivity {
 
         if (secondsElapsed > 222 && secondsElapsed <= 225) {
             tg.startTone(ToneGenerator.TONE_PROP_BEEP);
+        }
+
+        if (secondsElapsed == 225) {
+            imgIndicator.removeCallbacks(runnable);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            txtPhase.setText("Done");
+            imgIndicator.setImageResource(R.drawable.done_circle);
+            return;
         }
 
         imgIndicator.postDelayed(runnable, 1000);

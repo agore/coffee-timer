@@ -19,7 +19,7 @@
         android:textColor="#FFFFFF"
         android:textSize="32sp"
         android:text="Start"/>
-<!--
+
     <TextView
         android:id="@+id/txt_timer"
         android:layout_width="wrap_content"
@@ -29,5 +29,5 @@
         android:layout_marginTop="24dp"
         android:textSize="24sp"
         android:text="0:00"/>
-        -->
+
 </RelativeLayout>
